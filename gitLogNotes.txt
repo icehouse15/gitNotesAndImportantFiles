@@ -1,0 +1,130 @@
+git help log
+git status
+git log
+git log --abbrev-commit
+git log --oneline --graph --decorate
+git log 5b3ad59...0e9c0b0
+git log --since="3 days ago"
+git log -- <filename>
+git log --follow -- <dir/filename>
+git show <commitId> <6818b7e5a0edf01163e421da046c57df1086467a>
+git config --global alias.hist "log --all --graph --decorate --oneline" 
+git config --global diff.tool p4merge
+git config --global difftool.p4merge.path /Applications/p4merge.app/Contents/MacOS/p4merge
+git config --global difftool.prompt false
+git config --global merge.tool p4merge
+git config --global mergetool.p4merge.path /Applications/p4merge.app/Contents/MacOS/p4merge
+git config --global mergetool.prompt false
+git diff 
+git difftool
+git diff HEAD
+git difftool HEAD
+git diff --staged HEAD
+git difftool --staged HEAD
+git diff HEAD HEAD^
+git diff master origin/master
+
+#### branching
+git branch -a
+git branch <name of branch>
+git checkout myNewBranch
+git branch -m myNewBranch newBranch     ## this will rename the branch
+git branch -d newBranch                 ## this will remove the branch -- you MUST be out of the branch before doing this delete
+git checkout -b title-change            ## this will make a NEW branch and switch you into it
+git diff master title-change            ## show the diff between the 2 branches
+git merge title-change                  ## merges the branches together
+git merge add-copyright-2 --no-ff       ## merges the branches no fast forward merge
+git mergetool                           ## when a conflict happens, gives VERY nice way to fix conflicts
+git rebase master                       ## rebases the branch with master change
+git rebase --abort                      ## aborts a rebase
+git rebase --continue                   ## afer run mergetool to fix rebase merge, this tells git you are happy
+git fetch origin master                 ## updates local term with what's on the website 
+git pull --rebase origin master         ## keeps master up to par
+git stash                               ## defaults to save -- save a file for later on so can work on something else
+git stash apply                         ## brings back the stashed file(s) so can continue to work on 
+git stath list                          ## list information in the stach -- WIP on ... 
+git stash drop                          ## this will drop the last stash
+git stash -u                            ## stash untracked files (new files)
+git stash pop                           ## applys the stash and then drops the stash
+git stash save "message"                ## adds 'message' to the save for multiple stashes
+
+## below is example
+git stash list
+    stash@{0}: On master: readme changes
+    stash@{1}: On master: index changes
+    stash@{2}: On master: simple changes
+
+git stash show stash@{1}
+    index.html | 2 +-
+    1 file changed, 1 insertion(+), 1 deletion(-)
+
+### more exmaples:
+git stash list
+    stash@{0}: On master: readme changes
+    stash@{1}: On master: index changes
+    stash@{2}: On master: simple changes
+git stash apply stash@{1}
+    On branch master
+    Your branch is ahead of 'origin/master' by 4 commits.
+    (use "git push" to publish your local commits)
+
+    Changes not staged for commit:
+    (use "git add <file>..." to update what will be committed)
+    (use "git checkout -- <file>..." to discard changes in working directory)
+
+    modified:   index.html
+
+    no changes added to commit (use "git add" and/or "git commit -a")
+
+git stash drop stash@{1}
+    Dropped stash@{1} (9ed1f68840b95af2345748ed9cf17956a9fd098c)
+
+git stash clear                         ## will remove ALL stashes from memory
+git stash branch newchanges             ## will move the stash contents into new branch called 'newchanges'
+
+#####
+git tag myTag                           ## this will make a light weight marker (tag) see git hist
+git tag --list                          ## list all of the tags
+git show myTag                          ## will show the information for that tag
+git tag --delete myTag                  ## removes the tag 'myTag'
+
+git tag -a -v-1.0                       ## makes an anotated tag (big deal) where can put in messages
+
+## below is output
+git show v-1.0
+
+tag v-1.0
+Tagger: Wally Thurston <wallythurston@gmail.com>
+Date:   Fri Aug 2 10:52:45 2019 -0400
+
+Release 1.0
+This is an annotated tag.
+
+commit 06f31c9f0e54e46484c6113d8dc0238064019c86 (HEAD -> master, tag: v-1.0, origin/master, origin/HEAD)
+Author: Wally Thurston <wallythurston@gmail.com>
+Date:   Fri Aug 2 10:37:27 2019 -0400
+
+changes after git stash branch command
+
+diff --git a/humans.txt b/humans.txt
+index 9344119..c8780f3 100644
+--- a/humans.txt
++++ b/humans.txt
+@@ -16,3 +16,5 @@
+
+HTML5, CSS3
+jQuery, Modernizr
++    git
++
+diff --git a/index.html b/index.html
+i
+### rember when apply tag, it is only for that commit ONLY
+
+
+git commit --ammend                 ## this will allow to change log message
+git diff v-1.0 v-1.2                ## show a diff based on the tag -- in this example v1.0 and 1.2
+git tag -a v-0.9-beta 9b7d53e       ## add a tag to a particular commit only
+git tag -a v-0.8-alpha -f 36d4343   ## move tag 0.8-alpha to different id with -f flag
+git push origin v-0.9-beta          ## push the tag v-0.9-beta to github
+git push origin master --tags       ## push all the tags to github
+git push origin :v-0.8-alpha        ## removes version v-0.8-alpha from github 
